@@ -1,7 +1,9 @@
 const { DataTypes } = require('sequelize');
 
+
+
 module.exports = (sequelize) => {
-    sequelize.define('profesional', {
+    sequelize.define('cliente', {
         dni: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -15,22 +17,16 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false, 
         },
-        profesion: {
+        telefono: {
             type: DataTypes.STRING,
             allowNull: false, 
         },
-        domicilioLaboral: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false, 
-        },
-        telefonoLaboral: {
-            type: DataTypes.STRING,
-            allowNull: false, 
-        },
-        CP: {
-            type: DataTypes.INTEGER,
-            allowNull: false, 
-            foreinkey: true,
         },
     });
 }
+
+
+

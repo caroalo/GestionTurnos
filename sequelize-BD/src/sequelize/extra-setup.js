@@ -1,10 +1,26 @@
 function applyExtraSetup(sequelize) {
-	const { category, item, order } = sequelize.models;
+	const { profesional, cliente, evento, servicio, turno } = sequelize.models;
 
-	item.belongsTo(category);
-	category.hasMany(item);
-    item.belongsToMany(order, { through: 'order_item' });
-    order.belongsToMany(item, { through: 'order_item' });
+	profesional.hasMany(servicio);
+
+    // Configurar las relaciones many-to-many usando 'through' y especificando foreign keys
+    profesional.belongsToMany(turno, { 
+        through: 'IdTurno',
+        foreignKey: 'profesionalId', // Clave foránea de profesional en la tabla intermedia
+        otherKey: 'turnoId'          // Clave foránea de turno en la tabla intermedia
+    });
+
+    cliente.belongsToMany(turno, { 
+        through: 'IdTurno',
+        foreignKey: 'clienteId',     // Clave foránea de cliente en la tabla intermedia
+        otherKey: 'turnoId'
+    });
+
+    evento.belongsToMany(turno, { 
+        through: 'IdTurno',
+        foreignKey: 'eventoId',      // Clave foránea de evento en la tabla intermedia
+        otherKey: 'turnoId'
+    });
 }
 
 module.exports = { applyExtraSetup };
