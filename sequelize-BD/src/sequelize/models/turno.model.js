@@ -4,8 +4,8 @@ module.exports = (sequelize) => {
     sequelize.define('turno', {
         idTurno: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+            
+            
         },
         dniProfesional: {
             type: DataTypes.INTEGER,
@@ -28,9 +28,9 @@ module.exports = (sequelize) => {
             foreinkey: true, 
         },
         estado: {
-            type: DataTypes.VARCHAR,
+            type: DataTypes.STRING,
             allowNull: false,
-            foreinkey: true, 
+             
         },
     });
 }

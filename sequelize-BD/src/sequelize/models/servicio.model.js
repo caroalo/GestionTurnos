@@ -6,10 +6,10 @@ module.exports = (sequelize) => {
         idServicio: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primarykey: true, 
+            
         },
         nombreServicio: {
-            type: DataTypes.VARCHAR,
+            type: DataTypes.STRING,
             allowNull: false,
            
         },
@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
             foreinkey: true, 
         },
         decripcion: {
-            type: DataTypes.VARCHAR,
+            type: DataTypes.STRING,
             allowNull: false,
             
         },

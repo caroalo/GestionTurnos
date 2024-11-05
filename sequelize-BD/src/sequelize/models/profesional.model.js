@@ -4,8 +4,8 @@ module.exports = (sequelize) => {
     sequelize.define('profesional', {
         dni: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+            
+            
         },
         nombre: {
             type: DataTypes.STRING,

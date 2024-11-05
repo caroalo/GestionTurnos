@@ -17,6 +17,7 @@ const modelDefiners = [
 	require('./models/turno.model'),
 	require('./models/servicio.model'),
 	require('./models/evento.model'),
+	require('./models/horario.model'),
 	// Add more models here...
 	// require('./models/item'),
 ];
