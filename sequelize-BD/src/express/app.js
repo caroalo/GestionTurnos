@@ -2,17 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const routes = {
-	categories: require('./routes/categories'),
-	items: require('./routes/items'),
-	orders: require('./routes/orders'),
+	horarios: require('./routes/horarios'),
 	// Add more routes here...
 	// items: require('./routes/items'),
 };
 
 const app = express();
+const cors = require('cors')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
 
 // We create a wrapper to workaround async errors not being transmitted correctly.
 function makeHandlerAwareOfAsyncErrors(handler) {
@@ -32,6 +32,7 @@ for (const [routeName, routeController] of Object.entries(routes)) {
 			`/api/${routeName}`,
 			makeHandlerAwareOfAsyncErrors(routeController.getAll)
 		);
+		console.log("hfhgfhgfhg")
 	}
 	if (routeController.getById) {
 		app.get(
@@ -59,12 +60,8 @@ for (const [routeName, routeController] of Object.entries(routes)) {
 	}
 }
 
-app.get(`/api/orders/:id/items`,
-	makeHandlerAwareOfAsyncErrors(routes.orders.listItems)
-);
-
-app.post(`/api/orders/:id/items`,
-	makeHandlerAwareOfAsyncErrors(routes.orders.addItem)
+app.get(`/api/horarios`,
+	makeHandlerAwareOfAsyncErrors(routes.horarios.getAll)
 );
 
 
