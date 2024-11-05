@@ -59,13 +59,6 @@ for (const [routeName, routeController] of Object.entries(routes)) {
 	}
 }
 
-app.get(`/api/orders/:id/items`,
-	makeHandlerAwareOfAsyncErrors(routes.orders.listItems)
-);
-
-app.post(`/api/orders/:id/items`,
-	makeHandlerAwareOfAsyncErrors(routes.orders.addItem)
-);
 
 
 module.exports = app;
