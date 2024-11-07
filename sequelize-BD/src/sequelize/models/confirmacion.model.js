@@ -1,24 +1,20 @@
-const { DataTypes } = require('sequelize');
-
-module.exports = (sequelize) => {
-    sequelize.define('confirmacion', {
-
-        codigo: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            autoincrement: true,
-
-        },
-        hora: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            
-            
-        },
-        fecha: {
-            type: DataTypes.STRING,
-            allowNull: false,
-           
-        }
+module.exports = (sequelize, DataTypes) => {
+    const Confirmacion = sequelize.define('confirmacion', {
+      codigo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      fecha: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+      },
+      horario: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     });
-}
+  
+    return Confirmacion;
+  };
+  

@@ -60,6 +60,8 @@ for (const [routeName, routeController] of Object.entries(routes)) {
 	}
 }
 
+
+
 app.get(`/api/horarios`,
 	makeHandlerAwareOfAsyncErrors(routes.horarios.getAll)
 );
