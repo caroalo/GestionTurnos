@@ -18,6 +18,7 @@ const modelDefiners = [
 	require('./models/servicio.model'),
 	require('./models/evento.model'),
 	require('./models/horario.model'),
+	require('./models/confirmacion.model'),
 	// Add more models here...
 	// require('./models/item'),
 ];
