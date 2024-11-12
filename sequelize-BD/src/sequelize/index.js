@@ -1,41 +1,28 @@
-const app = require('../express/app');
-const sequelize = require('./sequelize');
-const PORT = 8080;
+const { Sequelize } = require('sequelize');
+const { applyExtraSetup } = require('./extra-setup');
 
-async function assertDatabaseConnectionOk() {
-  console.log(`Checking database connection...`);
-  try {
-    await sequelize.authenticate();
-    console.log('Database connection OK!');
-  } catch (error) {
-    console.log('Unable to connect to the database:');
-    console.log(error.message);
-    process.exit(1);
-  }
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'db.sqlite',
+  logQueryParameters: true,
+  benchmark: true
+});
+
+const modelDefiners = [
+  require('./models/profesional.model'),
+  require('./models/cliente.model'),
+  require('./models/turno.model'),
+  require('./models/servicio.model'),
+  require('./models/evento.model'),
+  require('./models/horario.model'),
+  require('./models/confirmacion.model'),
+];
+
+for (const modelDefiner of modelDefiners) {
+  modelDefiner(sequelize);
 }
 
-async function init() {
-  await assertDatabaseConnectionOk();
+applyExtraSetup(sequelize);
 
-  // sync models (create tables if they don't exist)
-  await sequelize.sync();
-
-  console.log(`Starting Sequelize + Express example on port ${PORT}...`);
-
-  app.listen(PORT, () => {
-    console.log(`Express server started on port ${PORT}. Try some routes, such as '/api/users'.`);
-  });
-
-  const queryData = async () => {
-    const Item = sequelize.models.item; // Asegúrate de que el modelo 'item' esté definido
-
-    // Realiza una consulta para obtener todos los productos
-    const items = await Item.findAll();
-
-    console.log(items); // Imprime los productos
-  };
-
-  // queryData(); // Descomenta esta línea si quieres ejecutar la consulta al iniciar el servidor
-}
-
-init();
+// We export the sequelize connection instance to be used around our app.
+module.exports = sequelize;
