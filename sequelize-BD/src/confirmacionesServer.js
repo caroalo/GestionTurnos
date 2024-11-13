@@ -1,46 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Navbar from './navbar';
-import "./home.css";
+const express = require('express');
+const cors = require('cors'); // Importa el paquete CORS
+const app = express();
+const confirmacionesRouter = require('./express/routes/confirmaciones');
+const sequelize = require('./sequelize/sequelize-viejo'); // Asegúrate de que la ruta es correcta
 
-/*Muestra la lista de confirmaciones de reservas en la página del Administrador*/
-const Confirmaciones = () => {
-  const [confirmaciones, setConfirmaciones] = useState([]);
 
-  useEffect(() => {
-    const fetchConfirmaciones = async () => {
-      try {
-        const response = await axios.get('http://localhost:8081/api/confirmaciones');
-        setConfirmaciones(response.data);
-      } catch (error) {
-        console.error('Error al obtener las confirmaciones:', error);
-      }
-    };
+// Configura CORS para permitir solicitudes desde cualquier origen
+app.use(cors());
 
-    fetchConfirmaciones();
-  }, []);
+app.use(express.json());
+app.use('/api', confirmacionesRouter);
 
-  return (
-    
-    <div className="text-box">
-      <Navbar />
+const PORT = process.env.PORT || 8081;
 
-      <h2>Reservas de Turnos</h2>
-      <div className="confirmation-list">
-        {confirmaciones.map((confirmacion) => (
-          <div key={confirmacion.id} className="confirmation-item">
-            <p><strong>Código de Reserva:</strong> {confirmacion.codigo}</p>
-            <p><strong>Fecha:</strong> {new Date(confirmacion.fecha).toLocaleDateString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            })}</p>
-            <p><strong>Hora:</strong> {confirmacion.horario}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+app.post('/api/confirmaciones', (req, res) => {
+  const { codigo, fecha, horario } = req.body;
+  console.log('Datos recibidos:', { codigo, fecha, horario });
+  // Lógica para guardar la confirmación
+  res.status(200).send('Confirmación guardada');
+});
 
-export default Confirmaciones;
+app.listen(PORT, async () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  try {
+    await sequelize.authenticate();
+    console.log('Conexión a la base de datos establecida correctamente.');
+    await sequelize.sync();
+  } catch (error) {
+    console.error('No se pudo conectar a la base de datos:', error);
+  }
+});
+

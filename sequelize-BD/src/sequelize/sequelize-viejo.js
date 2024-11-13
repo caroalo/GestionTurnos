@@ -1,11 +1,17 @@
 // src/sequelize.js
 const { Sequelize } = require('sequelize');
+const { applyExtraSetup } = require('./extra-setup');
 
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'mysql', // o el dialecto que uses
-  logging: false, // Desactivar el registro SQL para menos ruido
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'db.sqlite',
+  logQueryParameters: true,
+  benchmark: true
 });
+
+sequelize.authenticate()
+  .then(() => console.log('Database connection established successfully.'))
+  .catch(err => console.error('Unable to connect to the database:', err));
 
 module.exports = sequelize;
 
