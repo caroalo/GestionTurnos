@@ -17,7 +17,6 @@ async function getAll(req, res) {
   res.status(200).json(items);
 };
 
-
 module.exports = {
-	getAll,
+	getAll, 
 };

@@ -1,26 +1,36 @@
 // routes/confirmaciones.js
 const express = require('express');
 const router = express.Router();
-const {Confirmacion} = require('../../sequelize/models/confirmacion.model');
+const { models } = require('../../sequelize');
 
-
-router.get('/confirmacion', async (req, res) => {
-  try {
-    const confirmaciones = await Confirmacion.findAll();
-    res.json(confirmaciones);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener las confirmaciones' });
+async function getAll(req, res) {
+  let items;
+  console.log("RESERVA GUARDADA PARA: ");
+  console.log(req.query);
+  if (req.query.fecha) {
+    items = await models.confirmacion.findAll( {
+			where: {
+				fecha: req.query.fecha
+			}
+		});
   }
-});
-
-router.post('/confirmacion', async (req, res) => {
-  try {
-    const { codigo, fecha, horario } = req.body;
-    const nuevaConfirmacion = await Confirmacion.create({ codigo, fecha, horario });
-    res.status(201).json(nuevaConfirmacion);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al guardar la confirmación' });
+  else{
+	  items = await models.confirmacion.findAll();
   }
-});
+  items = await models.confirmacion.findAll()
+  res.status(200).json(items).end();
+};
 
-module.exports = router;
+async function create(req, res) {
+	if (!req.body.codigo) {
+		res.status(400).send(`Bad request: ID should not be provided, since it is determined automatically by the database.`)
+	} else {
+		await models.confirmacion.create(req.body);
+		res.status(201).end();
+	}
+};
+
+module.exports = {
+  getAll,
+  create
+};

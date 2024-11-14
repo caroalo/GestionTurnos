@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Confirmacion = sequelize.define('confirmacion', {
+  sequelize.define('confirmacion', {
     codigo: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,6 +16,4 @@ module.exports = (sequelize) => {
       allowNull: false
     }
   });
-
-  return Confirmacion;
 };

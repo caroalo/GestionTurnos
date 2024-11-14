@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 
 const routes = {
 	horarios: require('./routes/horarios'),
+	confirmaciones: require('./routes/confirmacion')
 	// Add more routes here...
 	// items: require('./routes/items'),
 };
 
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const router = require('./routes/confirmacion');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,11 +62,12 @@ for (const [routeName, routeController] of Object.entries(routes)) {
 	}
 }
 
-
-
 app.get(`/api/horarios`,
 	makeHandlerAwareOfAsyncErrors(routes.horarios.getAll)
 );
 
+app.get(`/api/confirmaciones`,
+    makeHandlerAwareOfAsyncErrors(routes.confirmaciones.getAll)
+);
 
 module.exports = app;

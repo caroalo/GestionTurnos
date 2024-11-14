@@ -25,7 +25,7 @@ app.get('/api/horarios', async (req, res) => {
 });
 
 // Ruta para guardar confirmación
-app.post('/api/confirmacion', async (req, res) => {
+app.get('/api/confirmacion', async (req, res) => {
   const { codigo, fecha, horario } = req.body;
   if (!codigo || !fecha || !horario) {
     return res.status(400).json({ error: 'Todos los campos son requeridos' });
