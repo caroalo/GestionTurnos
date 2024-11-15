@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       unique: true
     },
     fecha: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       allowNull: false
     },
     horario: {
